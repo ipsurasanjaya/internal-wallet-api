@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
     belongs_to :wallet
 
-    validates :wallet_id, presence: true
+    validates :wallet, presence: true
     validates :amount, comparison: { greater_than: 0 }
 
     enum :transaction_type, {
