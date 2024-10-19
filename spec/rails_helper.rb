@@ -63,3 +63,10 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+# spec/support/factory_bot.rb
+require 'rails_helper'
+
+RSpec.configure do |config|
+    config.include FactoryBot::Syntax::Methods
+end
