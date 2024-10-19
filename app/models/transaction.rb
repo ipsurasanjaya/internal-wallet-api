@@ -1,9 +1,9 @@
 class Transaction < ApplicationRecord
     belongs_to :wallet
 
-    validate :balance_cannot_be_negative
     validates :wallet, presence: true
     validates :amount, numericality: true, comparison: { greater_than: 0 }
+    validate :balance_cannot_be_negative
 
     enum :transaction_type, {
         credit: 0,
@@ -11,6 +11,8 @@ class Transaction < ApplicationRecord
     }
 
     def balance_cannot_be_negative
+        return unless wallet
+
         balance = wallet.transactions.sum(:amount)
         if balance < amount && credit?
             errors.add(:amount, "insufficient funds: current balance is less than the transaction amount")
