@@ -26,5 +26,19 @@ RSpec.describe Transaction, type: :model do
       expect(transaction).to_not be_valid
       expect(transaction.errors[:amount]).to include("must be greater than 0")
     end
+
+    it 'returns an error if amount is not a number' do
+      wallet = Wallet.new(
+        id: 1
+      )
+      transaction = Transaction.new(
+        transaction_type: :credit,
+        amount: 'invalid_amount',
+        wallet: wallet
+      )
+
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:amount]).to include("is not a number")
+    end
   end
 end
