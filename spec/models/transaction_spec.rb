@@ -40,5 +40,18 @@ RSpec.describe Transaction, type: :model do
       expect(transaction).to_not be_valid
       expect(transaction.errors[:amount]).to include("is not a number")
     end
+
+    it 'returns an error when balance less than credit amount' do 
+      wallet = Wallet.new(
+        id: 1
+      )
+
+      allow(wallet).to receive_message_chain(:transactions, :sum).and_return(100)
+
+      transaction = Transaction.new(amount: 300, transaction_type: :credit, wallet: wallet)
+      
+      transaction.valid?
+      expect(transaction.errors[:amount]).to include("insufficient funds: current balance is less than the transaction amount")
+    end
   end
 end

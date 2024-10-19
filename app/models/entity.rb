@@ -1,5 +1,5 @@
 class Entity < ApplicationRecord
-    has_one :wallet, as: :owner, dependent: :destroy
+    has_one :wallet, dependent: :destroy
 
     after_create :create_wallet
 end
