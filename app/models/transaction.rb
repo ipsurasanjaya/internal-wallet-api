@@ -1,7 +1,10 @@
 class Transaction < ApplicationRecord
     belongs_to :wallet
-    enum type: [
+
+    validates :wallet, presence: true
+
+    enum :transaction_type, {
         credit: 0,
         debit: 1
-    ]
+    }
 end
