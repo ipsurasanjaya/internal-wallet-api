@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_074539) do
   create_table "transactions", force: :cascade do |t|
     t.integer "transaction_type", default: 0
     t.float "amount"
+    t.string "operation_type"
     t.integer "wallet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
