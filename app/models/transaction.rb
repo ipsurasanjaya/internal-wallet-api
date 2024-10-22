@@ -3,20 +3,17 @@ class Transaction < ApplicationRecord
 
     validates :wallet, presence: true
     validates :amount, numericality: true, comparison: { greater_than: 0 }
-    validate :balance_cannot_be_negative
 
     enum :transaction_type, {
         credit: 0,
         debit: 1
     }
 
-    def balance_cannot_be_negative
-        return unless wallet
-        balance = wallet.transactions.sum(:amount)
+    def get_balance(wallet)
+        total_debit_amount = wallet.transactions.where(transaction_type: 1).sum(:amount)
+        total_credit_amount = wallet.transactions.where(transaction_type: 0).sum(:amount)
 
-        if balance < amount && transaction_type == "credit"
-            errors.add(:amount, "insufficient funds: current balance is less than the transaction amount")
-        end
+        balance = total_debit_amount - total_credit_amount
     end
 end
 
@@ -45,6 +42,11 @@ class TransferTransaction < Transaction
             amount: amount,
             operation_type: "TRANSFER"
         )
+
+        credit_balance = get_balance(credit_wallet)
+        if credit_balance - amount < 0
+            raise "insufficient funds"
+        end
 
         if credit_transaction.save 
             credit_transaction

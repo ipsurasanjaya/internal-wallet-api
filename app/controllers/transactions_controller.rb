@@ -19,7 +19,7 @@ class TransactionsController < ApplicationController
         elsif result[:error] == ActiveRecord::RecordNotFound
             json_response(message: "data not found", data: result[:data], status: 404)
         else
-            json_response(message: "internal server error", data: result[:data], status: 500)
+            json_response(message: "internal server error: #{result[:error]}", data: result[:data], status: 500)
         end
     end
 end

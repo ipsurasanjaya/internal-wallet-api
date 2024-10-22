@@ -18,9 +18,7 @@ class WalletTransactionService
             end
 
             transaction.create_transaction(@credit_wallet, @debit_wallet, @operation_type, @amount)
-            if transaction.errors.any?
-                return { success: false, error: "Transaction failed" }
-            else
+            if !transaction.errors.any?
                 { success: true }
             end
         end
