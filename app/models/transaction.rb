@@ -9,7 +9,7 @@ class Transaction < ApplicationRecord
         debit: 1
     }
 
-    def get_balance(wallet)
+    def self.get_balance(wallet)
         total_debit_amount = wallet.transactions.where(transaction_type: 1).sum(:amount)
         total_credit_amount = wallet.transactions.where(transaction_type: 0).sum(:amount)
 

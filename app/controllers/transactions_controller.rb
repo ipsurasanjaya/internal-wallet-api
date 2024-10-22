@@ -15,7 +15,7 @@ class TransactionsController < ApplicationController
         result = service.process_transaction
 
         if result[:success]
-            json_response(message: "transaction successful", data: result[:data], status: 200)
+            json_response(message: "OK", data: result[:data], status: 200)
         elsif result[:error] == ActiveRecord::RecordNotFound
             json_response(message: "data not found", data: result[:data], status: 404)
         else
