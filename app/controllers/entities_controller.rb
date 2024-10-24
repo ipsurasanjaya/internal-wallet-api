@@ -1,9 +1,11 @@
 class EntitiesController < ApplicationController
     include JsonHelper
+
+    before_action :authorize_request
     
     def show
-        entity = Entity.find(params[:id])
-        entity_data = entity.as_json(except: [:created_at, :updated_at])
+        entity = current_entity
+        entity_data = entity.as_json(except: [:created_at, :updated_at, :password_digest])
         wallet = entity.wallet
         balance = Transaction.get_balance(wallet)
 

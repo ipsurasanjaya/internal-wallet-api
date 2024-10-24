@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  post 'login', to: 'sessions#create'
   resources :transactions, only: [:create]
 
-  resources :entities, only: [:show]
+  get 'entity', to: 'entities#show'
 end

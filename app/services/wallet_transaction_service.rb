@@ -1,5 +1,6 @@
 class WalletTransactionService
-    def initialize(credit_wallet_id, debit_wallet_id, amount, operation_type)
+    def initialize(credit_wallet_id, debit_wallet_id, amount, operation_type, entity)
+        @entity = entity
         @credit_wallet_id = credit_wallet_id
         @debit_wallet_id = debit_wallet_id
         @operation_type = operation_type
@@ -7,13 +8,14 @@ class WalletTransactionService
     end
 
     def process_transaction
-        @credit_wallet = Wallet.find(@credit_wallet_id)
-        @debit_wallet = Wallet.find(@debit_wallet_id)
-
         ActiveRecord::Base.transaction do
+            
             if @operation_type == 'TOP-UP'
+                @debit_wallet = @entity.wallet
                 transaction = TopUpTransaction.new()
             elsif @operation_type == 'TRANSFER'
+                @credit_wallet = @entity.wallet
+                @debit_wallet = Wallet.find(@debit_wallet_id)
                 transaction = TransferTransaction.new()
             end
 

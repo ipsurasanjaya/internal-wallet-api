@@ -14,6 +14,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_074539) do
   create_table "entities", force: :cascade do |t|
     t.string "type"
     t.string "name"
+    t.string "email"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

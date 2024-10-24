@@ -43,7 +43,7 @@ class TransferTransaction < Transaction
             operation_type: "TRANSFER"
         )
 
-        credit_balance = get_balance(credit_wallet)
+        credit_balance = Transaction.get_balance(credit_wallet)
         if credit_balance - amount < 0
             raise "insufficient funds"
         end
