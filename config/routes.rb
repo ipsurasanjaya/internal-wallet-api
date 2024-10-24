@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   resources :transactions, only: [:create]
 
   get 'entity', to: 'entities#show'
+
+  get 'stocks/prices', to: 'stock_prices#show_price'
 end
